@@ -69,7 +69,7 @@ function App() {
               export CSV
             </button>
           </div>
-          {/* <table id="dataTable">
+          <table id="dataTable">
             <thead>
               <tr>
                 <th>No.</th>
@@ -80,7 +80,7 @@ function App() {
                 <th>操作</th>
               </tr>
             </thead>
-            <tbody>
+            {/* <tbody>
               {clickData.map((item) => (
                 <tr key={item.id}>
                   <td>{item.id}</td>
@@ -106,8 +106,8 @@ function App() {
                   </td>
                 </tr>
               ))}
-            </tbody>
-          </table> */}
+            </tbody> */}
+          </table>
         </div>
       </div>
     </div> // Appのとじタグ
