@@ -80,8 +80,8 @@ function App() {
                 <th>操作</th>
               </tr>
             </thead>
-            {/* <tbody>
-              {clickData.map((item) => (
+            <tbody>
+              {/* {clickData.map((item) => (
                 <tr key={item.id}>
                   <td>{item.id}</td>
                   <td>{item.x}</td>
@@ -105,8 +105,8 @@ function App() {
                     </button>
                   </td>
                 </tr>
-              ))}
-            </tbody> */}
+              ))} */}
+            </tbody>
           </table>
         </div>
       </div>
