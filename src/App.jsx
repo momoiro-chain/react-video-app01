@@ -6,6 +6,24 @@ function App() {
   const [clickInfo, setClickInfo] = useState({x: null, y: null, time: null});
   const [clickData, setClickData] = useState([]);
 
+
+  // データを取得。デジタイズ部分
+  const handleVideoClick = (e) => {
+    const video = videoRef.current; // コンポーネント内でしかvideoRefを定義してない。変えないと使い勝手悪そう。
+    if(!video) return;
+    const rect = video.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const scaleX = video.videoWidth / rect.width;
+    const scaleY = video.videoHeight / rect.height;
+    const actualX = Math.round(x * scaleX);
+    const actualY = Math.round(video.videoHeight - (y * scaleY));
+    setClickInfo({x: actualX, y: actualY, time: video.currentTime});
+  };
+
+
+
+
   // tebleに追加系
   const handleAddData = () => {
     if(clickInfo.x === null) return;
@@ -100,7 +118,7 @@ function App() {
 
   return (
     <div className="App">
-      <VideoPlayer />
+      <VideoPlayer onClick={handleVideoClick}/>
       <div className="info-container">
       
         <div className="click-info">
