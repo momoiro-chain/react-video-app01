@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import VideoPlayer from './compornents/videoPlayer';
 import './App.css';
 
 function App() {
-  // const [clickInfo, setClickInfo] = useState({x: null, y: null, time: null});
-  // const [clickData, setClickData] = useState([]);
+  const [clickInfo, setClickInfo] = useState({x: null, y: null, time: null});
+  const [clickData, setClickData] = useState([]);
 
   // tebleに追加系
   const handleAddData = () => {
@@ -19,6 +19,11 @@ function App() {
     setClickData((prev) => [...prev, newEntry]);
   };
 
+    // 行（データ）の削除
+    const handleDeleteRow = (id) => {
+      setClickData((prev) => prev.filter((item) => item.id !== id))
+    };
+
   const handleNoteChange = (e) => {
     setClickData((prev) => 
      prev.map((item) => (item.id === Id ? { ...item, note: newNote } : item))
@@ -29,6 +34,8 @@ function App() {
   const handleExportCSV = () => {
 
   };
+
+
 
 
 
@@ -81,7 +88,7 @@ function App() {
               </tr>
             </thead>
             <tbody>
-              {/* {clickData.map((item) => (
+              {clickData.map((item) => (
                 <tr key={item.id}>
                   <td>{item.id}</td>
                   <td>{item.x}</td>
@@ -105,7 +112,7 @@ function App() {
                     </button>
                   </td>
                 </tr>
-              ))} */}
+              ))}
             </tbody>
           </table>
         </div>
