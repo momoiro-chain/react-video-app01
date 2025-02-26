@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 //import './App.css'; // 必要に応じてスタイルファイルを変更してください
 
-const VideoPlayer = ({onClick}) => { //AppからのonClickプロパティを受け取る
+const VideoPlayer = ({ onClick }) => { // AppからのonClickプロパティを受け取る
   const videoRef = useRef(null);
 
   const [videoSrc, setVideoSrc] = useState(null);
@@ -13,10 +13,10 @@ const VideoPlayer = ({onClick}) => { //AppからのonClickプロパティを受�
   const currentFrame = Math.floor(currentTime * frameRate);
   const totalFrames = Math.floor(videoDuration * frameRate);
 
-  // videoのクリックハンドラー
+  // ビデオのクリックハンドラー
   const handleVideoContainerClick = (e) => {
     if (onClick && videoRef.current) {
-      onClick(e, videoRef.current);
+      onClick(e, videoRef.current); // ビデオ要素を第2引数として渡す
     }
   };
 
@@ -127,8 +127,8 @@ const VideoPlayer = ({onClick}) => { //AppからのonClickプロパティを受�
       </div>
 
       <div className="main-container">
-        {/* 動画表示部分 */}
-        <div className="video-container" onClick={[handleVideoContainerClick]}>
+        {/* 動画表示部分 - クリックイベントハンドラーを追加 */}
+        <div className="video-container" onClick={handleVideoContainerClick}>
           <video
             id="videoPlayer"
             ref={videoRef}

@@ -102,7 +102,7 @@ function App() {
 
   return (
     <div className="App">
-      <VideoPlayer onClick={handleVideoClick} />
+      <VideoPlayer onClick={handleVideoClick}/>
       <div className="info-container">
       
         <div className="click-info">
