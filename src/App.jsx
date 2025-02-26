@@ -8,20 +8,17 @@ function App() {
 
 
   // データを取得。デジタイズ部分
-  const handleVideoClick = (e) => {
-    const video = videoRef.current; // コンポーネント内でしかvideoRefを定義してない。変えないと使い勝手悪そう。
-    if(!video) return;
-    const rect = video.getBoundingClientRect();
+  const handleVideoClick = (e, videoElement) => {
+    if(!videoElement) return;
+    const rect = videoElement.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    const scaleX = video.videoWidth / rect.width;
-    const scaleY = video.videoHeight / rect.height;
+    const scaleX = videoElement.videoWidth / rect.width;
+    const scaleY = videoElement.videoHeight / rect.height;
     const actualX = Math.round(x * scaleX);
-    const actualY = Math.round(video.videoHeight - (y * scaleY));
-    setClickInfo({x: actualX, y: actualY, time: video.currentTime});
+    const actualY = Math.round(videoElement.videoHeight - (y * scaleY));
+    setClickInfo({x: actualX, y: actualY, time: videoElement.currentTime});
   };
-
-
 
 
   // tebleに追加系
@@ -37,18 +34,16 @@ function App() {
     setClickData((prev) => [...prev, newEntry]);
   };
 
-    // 行（データ）の削除
-    const handleDeleteRow = (id) => {
-      setClickData((prev) => prev.filter((item) => item.id !== id))
-    };
-
-  const handleNoteChange = (e) => {
-    setClickData((prev) => 
-     prev.map((item) => (item.id === Id ? { ...item, note: newNote } : item))
-   );
+  // 行（データ）の削除
+  const handleDeleteRow = (id) => {
+    setClickData((prev) => prev.filter((item) => item.id !== id))
   };
 
-
+  const handleNoteChange = (id, newNote) => {
+    setClickData((prev) => 
+     prev.map((item) => (item.id === id ? { ...item, note: newNote } : item))
+   );
+  };
 
 
   // CSVの出力
@@ -93,7 +88,7 @@ function App() {
       ("0" + date.getMinutes()).slice(-2) +
       ("0" + date.getSeconds()).slice(-2);
     const fileName = `click_data_${timestamp}.csv`;
-    const link  = document.createElement("a"); // 謎　調べる
+    const link  = document.createElement("a"); // ダウンロードリンク作成
     link.href = URL.createObjectURL(blob);
     link.download = fileName;
     document.body.appendChild(link);
@@ -105,34 +100,23 @@ function App() {
   };
 
 
-
-
-
-
-  
-  
-
-
-
-
-
   return (
     <div className="App">
-      <VideoPlayer onClick={handleVideoClick}/>
+      <VideoPlayer onClick={handleVideoClick} />
       <div className="info-container">
       
         <div className="click-info">
           <h3>click info</h3>
           <p>
-            X座標: <span id="xCoord">x value</span>
+            X座標: <span id="xCoord">{clickInfo.x !== null ? clickInfo.x : 'x value'}</span>
           </p>
           <p>
-            Y座標: <span id="yCoord">y value</span>
+            Y座標: <span id="yCoord">{clickInfo.y !== null ? clickInfo.y : 'y value'}</span>
           </p>
           <p>
             Time: {''}
             <span id="timeStamp">
-              time timeStamp
+              {clickInfo.time !== null ? clickInfo.time.toFixed(3) : 'time timeStamp'}
             </span>
           </p>
           <button id="addData" className="add-button" onClick={handleAddData}>
@@ -151,7 +135,7 @@ function App() {
               <tr>
                 <th>No.</th>
                 <th>X座標</th>
-                <th>座標</th>
+                <th>Y座標</th>
                 <th>時間(sec)</th>
                 <th>補足</th>
                 <th>操作</th>

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 //import './App.css'; // 必要に応じてスタイルファイルを変更してください
 
-const VideoPlayer = () => {
+const VideoPlayer = ({onClick}) => { //AppからのonClickプロパティを受け取る
   const videoRef = useRef(null);
 
   const [videoSrc, setVideoSrc] = useState(null);
@@ -12,6 +12,13 @@ const VideoPlayer = () => {
 
   const currentFrame = Math.floor(currentTime * frameRate);
   const totalFrames = Math.floor(videoDuration * frameRate);
+
+  // videoのクリックハンドラー
+  const handleVideoContainerClick = (e) => {
+    if (onClick && videoRef.current) {
+      onClick(e, videoRef.current);
+    }
+  };
 
   // ファイル選択時の処理
   const handleFileChange = (e) => {
@@ -121,7 +128,7 @@ const VideoPlayer = () => {
 
       <div className="main-container">
         {/* 動画表示部分 */}
-        <div className="video-container">
+        <div className="video-container" onClick={[handleVideoContainerClick]}>
           <video
             id="videoPlayer"
             ref={videoRef}
